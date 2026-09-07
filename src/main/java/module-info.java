@@ -3,7 +3,7 @@ module com.example.rpm_pr_1 {
     requires javafx.fxml;
     requires java.sql;
     requires mysql.connector.java; // Нужен для корректной работы драйвера БД
-    requires flyway.core;
+    requires org.flywaydb.core;
     // Позволяет JavaFX FXMLLoader сканировать и инициализировать ваши контроллеры
     opens com.example.rpm_pr_1.controller to javafx.fxml;
 
