@@ -1,84 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>RPM_PR_1</artifactId>
+    <artifactId>notes-app</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>RPM_PR_1</name>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
+        <javafx.version>21</javafx.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>17.0.2</javafx.version>
     </properties>
 
     <dependencies>
-        <!-- JavaFX Controls -->
+        <!-- JavaFX dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-
-        <!-- JavaFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- MySQL Connector -->
+        <!-- MySQL Connector (Оставлена одна стабильная версия) -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.1.0</version>
         </dependency>
 
         <!-- Flyway Core -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>9.22.3</version>
+            <version>12.0.3</version>
+        </dependency>
+
+        <!-- Flyway MySQL support -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>12.0.3</version>
+        </dependency>
+
+        <!-- Hibernate Core -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.3.1.Final</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- ПЛАГИН FLYWAY ДЛЯ МИГРАЦИЙ -->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>12.0.3</version>
+                <configuration>
+                    <url>jdbc:mysql://127.0.0.1:3306/student_db</url>
+                    <user>root</user>
+                    <password>KJ{t,fysq123</password>
+                </configuration>
+                <dependencies>
+                    <!-- Добавляем поддержку MySQL прямо внутрь плагина, чтобы команда из Maven-вкладки работала автономно -->
+                    <dependency>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-mysql</artifactId>
+                        <version>12.0.3</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
             <!-- Плагин JavaFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.example.studentapp.MainApp</mainClass>
+                    <mainClass>com.example.project.MainApp</mainClass>
                 </configuration>
-            </plugin>
-
-            <!-- ПЛАГИН FLYWAY ДЛЯ МИГРАЦИЙ ИЗ ВКЛАДКИ MAVEN -->
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.22.3</version>
-                <configuration>
-                    <url>jdbc:mysql://localhost:3306/student_db?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</url>
-                    <user>root</user>
-                    <password>root</password>
-                    <locations>
-                        <location>filesystem:src/main/resources/db/migration</location>
-                    </locations>
-                </configuration>
-                <dependencies>
-                    <!-- Драйвер MySQL внутри плагина, чтобы он мог достучаться до БД -->
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.28</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
