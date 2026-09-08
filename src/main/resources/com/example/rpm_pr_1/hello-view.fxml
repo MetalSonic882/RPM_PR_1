@@ -23,7 +23,7 @@
                 <Label text="Добавить студента" style="-fx-font-weight: bold;"/>
                 <TextField fx:id="txtStudentName" promptText="ФИО студента"/>
                 <TextField fx:id="txtGroupName" promptText="Группа"/>
-                <Button text="Добавить" onAction="#handleAddSubject" maxWidth="Infinity"/>
+                <Button text="Добавить" onAction="#handleAddStudent" maxWidth="Infinity"/>
             </VBox>
             <VBox spacing="5" style="-fx-border-color: #ccc; -fx-padding: 10; -fx-border-radius: 5;">
                 <Label text="Добавить предмет" style="-fx-font-weight: bold;"/>
